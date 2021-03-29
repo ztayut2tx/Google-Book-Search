@@ -1,8 +1,11 @@
 import React from "react";
+import Results from "../components/Results";
 
 function Search() {
     return (
-        <div></div>
+        <div>
+            <Results />
+        </div>
     );
 }
 
