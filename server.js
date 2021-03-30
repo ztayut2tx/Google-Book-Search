@@ -25,3 +25,7 @@ mongoose.connect(
 );
 
 //need to add API server starter
+
+app.listen(PORT, function() {
+    console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+});
