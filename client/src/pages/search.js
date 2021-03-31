@@ -56,12 +56,19 @@ function Search() {
                 <Jumbotron>
                    {result.map(book => (
                        <a href={book.volumeInfo.title}>
+                           <img src={book.volumeInfo.imagelinks} alt={book.title}/>
+                           <br></br>
+                           {book.volumeInfo.title}
+                           <br></br>
                            by {book.volumeInfo.authors}
+                           <br></br>
+                           <br></br>
                            <Button className="saveBtn"
                             onClick={() => SaveBtn(
-                            book.id, book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description, book.volumeInfo.imageLinks.thumbnail, book.volumeInfo.previewLink)}
+                            book.id, book.volumeInfo.title)}
                             variant="primary">Save
                         </Button>
+                        
                         
                             
                         </a>
