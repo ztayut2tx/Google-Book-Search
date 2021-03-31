@@ -4,15 +4,15 @@ import DeleteBtn from "../components/DeleteBtn";
 import Api from "../utils/API";
 
 function Saved() {
-
+//initial state
     const [books, setBooks] =useState([])
-
+//populates all saved books
     useEffect(() => { popBooks()}, [])
-
+//saves book to db so user will have savedbooks listed
     function popBooks () {
-        Api.getBook().then(res => setBooks(res.data)).catch(err => console.log(err))
+        Api.getBooks().then(res => setBooks(res.data)).catch(err => console.log(err))
     };
-
+//Use to delete book by id number
     function deleteBook(id) {
         Api.deleteBook(id).then(res => popBooks()).catch(err => console.log(err))
     };

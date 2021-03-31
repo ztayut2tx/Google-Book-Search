@@ -6,27 +6,27 @@ import API from "../utils/API";
 
 
 function Search() {
-
+//setting initial state
     const [ results, setResults ] = useState([])
-    const [ books, setBooks ] = useState()
-    
+    const [ searchG, setSearch ] = useState()
+  //below is where im having my errors which is annoying because its the most crucial part of the app. This is suppose to be the request to the API after a title is searched.  
     function SearchGoogle(query) {
-        API.books(query)
+        API.searchG(query)
             .then(res => setResults(res.data.items))
             .catch(err => console.log(err));
     }
-
+//handles user inputed data
     function handleInputChange(event) {
         const { name, value } = event.target;
-        setBooks ({ [name]: value})
+        setSearch ({ [name]: value})
 
     };
-
+//submits to googleapi
     function handleFormSubmit(event) {
         event.preventDefault();
-        SearchGoogle(books);
+        SearchGoogle(searchG);
     };
-
+//this is the function to save a book to db.
     function saveForm (id, title, author,image,description,Link) {
         const stagedBook = results.filter(result => result.id === id)
         const [ storeBooks] = stagedBook;
@@ -34,7 +34,7 @@ function Search() {
         API.saveBook( {
             id: id,
             title: title,
-            authors: author,
+            authors: authors,
             image: image,
             description: description,
             link: Link,

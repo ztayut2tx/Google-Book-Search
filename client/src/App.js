@@ -12,7 +12,6 @@ function App() {
         <Nav />
         <Jumbotron>
           <h1 className="display-4 text-center">Google Books Search</h1>
-          <p className="lead text-center">Search for and Save Books of Interest</p>
         </Jumbotron>
         <Switch>
           <Route exact path="/">
