@@ -3,32 +3,33 @@ import Jumbotron from "../components/Jumbotron";
 import { Input, FormBtn } from "../components/Form";
 import SaveBtn from "../components/SaveBtn";
 import API from "../utils/API";
+import axios from "axios";
+import Button from "react-bootstrap/Button"
 
 
 function Search() {
-//setting initial state
-    const [ results, setResults ] = useState([])
-    const [ searchG, setSearch ] = useState()
-  //below is where im having my errors which is annoying because its the most crucial part of the app. This is suppose to be the request to the API after a title is searched.  
-    function SearchGoogle(query) {
-        API.searchG(query)
-            .then(res => setResults(res.data.items))
-            .catch(err => console.log(err));
-    }
-//handles user inputed data
-    function handleInputChange(event) {
-        const { name, value } = event.target;
-        setSearch ({ [name]: value})
 
-    };
-//submits to googleapi
+    const [book, setBook] = useState("");
+    const [result, setResult] = useState([]);
+    const [apiKey, setApiKey] = useState("AIzaSyBvlZKjvCDI1q78UsVQt8Ny8FyjTMcO0Oo")
+    function handleInputChange(event) {
+        const book = event.target.value;
+
+        setBook(book);
+    }
+
     function handleFormSubmit(event) {
         event.preventDefault();
-        SearchGoogle(searchG);
-    };
+
+        axios.get("https://www.googleapis.com/books/v1/volumes?q="+book+"&key="+ apiKey+"&maxResults=40")
+        .then(data => {
+            console.log(data.data.items);
+            setResult(data.data.items);
+        });
+    }
 //this is the function to save a book to db.
     function saveForm (id, title, author,image,description,Link) {
-        const stagedBook = results.filter(result => result.id === id)
+        const stagedBook = result.filter(result => result.id === id)
         const [ storeBooks] = stagedBook;
         const [ authors ] = storeBooks.volumeInfo.authors;
         API.saveBook( {
@@ -46,34 +47,25 @@ function Search() {
         <div>
             <Jumbotron>
                 <p className="lead">Book Search</p>
-                <p className= "lead">Book</p>
-                <form>
+                <form onSubmit>
                     <Input  onChange={handleInputChange} />
                     <FormBtn onClick={handleFormSubmit} />
                 </form>
             </Jumbotron>
                 <p className="lead">Results</p>
                 <Jumbotron>
-                    {results.length ? (
-                        <ul className="list-group">
-                            {results.map(result => (
-                                <li className="list-group-item" key={result.id}>
-                                    
-                                    <p className="lead d-inline">{result.volumeInfo.title} written by {result.volumeInfo.authors}</p>
-                                    
-                                    <SaveBtn onClick={() => saveForm(result.id)}  />
-                                    
-                                    <a className="btn btn-success mr-1" style={{ float: "right" }} href={result.volumeInfo.infoLink} target="_blank" rel="noopener noreferrer">View</a>
-                                    
-                                    <img src={result.volumeInfo.imageLinks.Thumbnail} className="img-thumbnail float-left mr-3" alt="searchedBook"></img>
-                                    
-                                    <p className="lead">{result.volumeInfo.description}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <h3>Search a Book</h3>
-                    )}   
+                   {result.map(book => (
+                       <a href={book.volumeInfo.title}>
+                           by {book.volumeInfo.authors}
+                           <Button className="saveBtn"
+                            onClick={() => SaveBtn(
+                            book.id, book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.description, book.volumeInfo.imageLinks.thumbnail, book.volumeInfo.previewLink)}
+                            variant="primary">Save
+                        </Button>
+                        
+                            
+                        </a>
+                   ))}
                 </Jumbotron>
            
         </div>
