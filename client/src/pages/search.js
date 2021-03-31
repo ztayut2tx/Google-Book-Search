@@ -6,18 +6,19 @@ import API from "../utils/API";
 import axios from "axios";
 import Button from "react-bootstrap/Button"
 
-
+//function to search for given book
 function Search() {
 
     const [book, setBook] = useState("");
     const [result, setResult] = useState([]);
     const [apiKey, setApiKey] = useState("AIzaSyBvlZKjvCDI1q78UsVQt8Ny8FyjTMcO0Oo")
+   //takes in user inputed data
     function handleInputChange(event) {
         const book = event.target.value;
 
         setBook(book);
     }
-
+    //submits user inputed data to API
     function handleFormSubmit(event) {
         event.preventDefault();
 
