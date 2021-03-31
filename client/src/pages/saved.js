@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import SavedBooks from "../components/SavedBooks";
-import Jumbotron from "../utils/Jumbotron";
-import Api from "../utils/Api";
+import Jumbotron from "../components/Jumbotron";
+import DeleteBtn from "../components/DeleteBtn";
+import Api from "../utils/API";
 
 function Saved() {
 
@@ -31,7 +31,7 @@ function Saved() {
                                     
                                     <DeleteBtn onClick={() => deleteBook(book.id,book.title, book.description, book.thumbnail, book.previewLink)}  />
                                     
-                                    <a className="btn btn-success mr-1" style={{ float: "right" }} href={book.infoLink} target="_blank" rel="noreferrer">View</a>
+                                    <a className="btn btn-success mr-1" style={{ float: "right" }} href={book.infoLink} target="_blank" rel="noopener noreferrer">View</a>
                                     
                                     <img src={book.img} className="img-thumbnail float-left mr-3" alt="oldBook"></img>
                                     
